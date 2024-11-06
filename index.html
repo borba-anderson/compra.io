@@ -1,185 +1,209 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OPÇÕES DE COMPRA</title>
     <style>
-        /* Resetando algumas configurações padrões */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      /* Resetando algumas configurações padrões */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #121212;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            margin: 0;
-        }
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #121212;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+      }
 
-        h1 {
-            font-size: 40px;
-            color: #ff6f00;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
-            padding-top: 10px;
-            background-color: #333;
-            width: 100%;
-            padding: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            text-align: center;
-        }
+      h1 {
+        font-size: 40px;
+        color: #ff6f00;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+        padding-top: 10px;
+        background-color: #333;
+        width: 100%;
+        padding: 20px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        text-align: center;
+      }
 
+      .product-list {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        padding: 80px 20px 100px;
+        margin-top: 100px; /* Ajustando para o cabeçalho fixo */
+      }
+
+      .product-card {
+        background-color: #1a1a1a;
+        border-radius: 15px;
+        width: 300px; /* Largura fixa para desktop */
+        padding: 20px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+      }
+
+      .product-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+      }
+
+      .product-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: contain;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+      }
+
+      .product-card:hover img {
+        transform: scale(1.1);
+      }
+
+      .product-card h3 {
+        font-size: 18px;
+        color: #fff;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+
+      .product-card p {
+        font-size: 16px;
+        color: #ff6f00;
+        margin: 10px 0;
+      }
+
+      .product-card a {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 10px 20px;
+        background-color: #ff6f00;
+        color: #fff;
+        font-size: 16px;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+      }
+
+      .product-card a:hover {
+        background-color: #e55e00;
+      }
+
+      footer {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 15px;
+        width: 100%;
+        font-size: 16px;
+        position: fixed;
+        bottom: 0;
+      }
+
+      /* Media queries para tornar o layout mais adaptável em diferentes dispositivos */
+      @media (max-width: 1200px) {
+        .product-card {
+          width: 250px; /* Para telas médias, como tablets */
+        }
+      }
+
+      @media (max-width: 768px) {
         .product-list {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            padding: 80px 20px 100px;
-            margin-top: 100px; /* Ajustando para o cabeçalho fixo */
+          flex-direction: column; /* Empilha os cards em dispositivos móveis */
+          align-items: center;
         }
 
         .product-card {
-            background-color: #1a1a1a;
-            border-radius: 15px;
-            width: 300px; /* Definindo a largura dos cards */
-            padding: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease-in-out;
-            position: relative;
-            overflow: hidden;
-            text-align: center;
+          width: 90%; /* Ajusta a largura dos cards para dispositivos móveis */
+          margin-bottom: 20px; /* Espaçamento entre os cards */
         }
 
-        .product-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+        h1 {
+          font-size: 32px; /* Tamanho do título reduzido em telas menores */
         }
+      }
 
-        .product-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: contain;
-            border-radius: 8px;
-            transition: transform 0.3s ease;
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 28px; /* Título ainda menor para telas muito pequenas */
         }
-
-        .product-card:hover img {
-            transform: scale(1.1);
-        }
-
-        .product-card h3 {
-            font-size: 18px;
-            color: #fff;
-            margin-top: 20px;
-            font-weight: bold;
-        }
-
-        .product-card p {
-            font-size: 16px;
-            color: #ff6f00;
-            margin: 10px 0;
-        }
-
-        .product-card a {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #ff6f00;
-            color: #fff;
-            font-size: 16px;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-
-        .product-card a:hover {
-            background-color: #e55e00;
-        }
-
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 15px;
-            width: 100%;
-            font-size: 16px;
-            position: fixed;
-            bottom: 0;
-        }
-
-        @media (max-width: 768px) {
-            .product-card {
-                width: 250px; /* Menor largura para dispositivos móveis */
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>OPÇÕES DE COMPRA - IMPRESSORA</h1>
 
     <div class="product-list" id="product-list">
-        <!-- Os cards serão inseridos aqui -->
+      <!-- Os cards serão inseridos aqui -->
     </div>
 
-    <footer>
-        Direitos reservados por Borba | DV
-    </footer>
+    <footer>Direitos reservados por Borba | DV</footer>
 
     <script>
-        const products = [
-            {
-                name: "Impressora Função Única Epson EcoTank L1250 (Mercado Livre)",
-                image: "https://http2.mlstatic.com/D_NQ_NP_2X_936254-MLU72627739314_112023-F.webp",
-                price: "R$ 907,00",
-                link: "https://www.mercadolivre.com.br/impressora-funco-unica-cor-epson-ecotank-l1250-127220v/p/MLB21638434?pdp_filters=item_id%3AMLB5141195212&from=gshop&matt_tool=39437454&matt_word=&matt_source=google&matt_campaign_id=14303413652&matt_ad_group_id=125984292917&matt_match_type=&matt_network=g&matt_device=c&matt_creative=539354956551&matt_keyword=&matt_ad_position=&matt_ad_type=pla&matt_merchant_id=735098639&matt_product_id=MLB21638434-product&matt_product_partition_id=2267720640641&matt_target_id=aud-1967669456294:pla-2267720640641&cq_src=google_ads&cq_cmp=14303413652&cq_net=g&cq_plt=gp&cq_med=pla&gad_source=1&gclid=EAIaIQobChMI2Y6jsajIiQMVYjutBh1mdBKOEAQYBSABEgKgGvD_BwE"
-            },
-            {
-                name: "Impressora Multifuncional HP 2874 (Amazon)",
-                image: "https://http2.mlstatic.com/D_NQ_NP_829603-MLU75230591366_032024-O.webp",
-                price: "R$ 419,00",
-                link: "https://www.amazon.com.br/Impressora-Multifuncional-HP-2874-Tecnologia/dp/B0CT8XVNQX/ref=asc_df_B0CT8XVNQX/?tag=googleshopp00-20&linkCode=df0&hvadid=709884378169&hvpos=&hvnetw=g&hvrand=12288537503771499105&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9102359&hvtargid=pla-2295055751918&psc=1&mcid=facdf473e4413f82beaa2c29ca712849&gad_source=1"
-            },
-            {
-                name: "Impressora multifuncional cor HP Multifuncional DeskJet Ink Advantage 2874 127/220V",
-                image: "https://http2.mlstatic.com/D_NQ_NP_829603-MLU75230591366_032024-O.webp",
-                price: "R$ 383,80",
-                link: "https://www.mercadolivre.com.br/impressora-multifuncional-cor-hp-multifuncional-deskjet-ink-advantage-2874-127220v/p/MLB34923702?pdp_filters=item_id%3AMLB3646033543&from=gshop&matt_tool=10818270&matt_word=&matt_source=google&matt_campaign_id=14303413601&matt_ad_group_id=125984286957&matt_match_type=&matt_network=g&matt_device=c&matt_creative=539354956209&matt_keyword=&matt_ad_position=&matt_ad_type=pla&matt_merchant_id=735098660&matt_product_id=MLB34923702-product&matt_product_partition_id=2267720640401&matt_target_id=aud-1967669456294:pla-2267720640401&cq_src=google_ads&cq_cmp=14303413601&cq_net=g&cq_plt=gp&cq_med=pla&gad_source=1&gclid=EAIaIQobChMI977cjqrIiQMVAiytBh2yJxRpEAQYASABEgIpjvD_BwE"
-            },
-            {
-                name: "Impressora Multifuncional HP Smart Tank 521 Preto USB 2.0 100-220V",
-                image: "https://http2.mlstatic.com/D_NQ_NP_2X_859873-MLA79465088971_092024-F.webp",
-                price: "R$ 664,05",
-                link: "https://www.mercadolivre.com.br/impressora-multifuncional-hp-smart-tank-521-preto-usb-20-100-220v/p/MLB38650401#wid%3DMLB4998208376%26sid%3Dsearch%26searchVariation%3DMLB38650401%26searchPage%3Dsearch%26search_position%3D2%26searchBy%3Dactive&from=gshop"
-            },
-        ];
+      const products = [
+        {
+          name: "Impressora Função Única Epson EcoTank L1250 (Mercado Livre)",
+          image:
+            "https://http2.mlstatic.com/D_NQ_NP_2X_936254-MLU72627739314_112023-F.webp",
+          price: "R$ 907,00",
+          link: "https://www.mercadolivre.com.br/impressora-funco-unica-cor-epson-ecotank-l1250-127220v/p/MLB21638434?pdp_filters=item_id%3AMLB5141195212&from=gshop&matt_tool=39437454&matt_word=&matt_source=google&matt_campaign_id=14303413652&matt_ad_group_id=125984292917&matt_match_type=&matt_network=g&matt_device=c&matt_creative=539354956551&matt_keyword=&matt_ad_position=&matt_ad_type=pla&matt_merchant_id=735098639&matt_product_id=MLB21638434-product&matt_product_partition_id=2267720640641&matt_target_id=aud-1967669456294:pla-2267720640641&cq_src=google_ads&cq_cmp=14303413652&cq_net=g&cq_plt=gp&cq_med=pla&gad_source=1&gclid=EAIaIQobChMI2Y6jsajIiQMVYjutBh1mdBKOEAQYBSABEgKgGvD_BwE",
+        },
+        {
+          name: "Impressora Multifuncional HP 2874 (Amazon)",
+          image:
+            "https://http2.mlstatic.com/D_NQ_NP_829603-MLU75230591366_032024-O.webp",
+          price: "R$ 419,00",
+          link: "https://www.amazon.com.br/Impressora-Multifuncional-HP-2874-Tecnologia/dp/B0CT8XVNQX/ref=asc_df_B0CT8XVNQX/?tag=googleshopp00-20&linkCode=df0&hvadid=709884378169&hvpos=&hvnetw=g&hvrand=12288537503771499105&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9102359&hvtargid=pla-2295055751918&psc=1&mcid=facdf473e4413f82beaa2c29ca712849&gad_source=1",
+        },
+        {
+          name: "Impressora multifuncional cor HP Multifuncional DeskJet Ink Advantage 2874 127/220V",
+          image:
+            "https://http2.mlstatic.com/D_NQ_NP_829603-MLU75230591366_032024-O.webp",
+          price: "R$ 383,80",
+          link: "https://www.mercadolivre.com.br/impressora-multifuncional-cor-hp-multifuncional-deskjet-ink-advantage-2874-127220v/p/MLB34923702?pdp_filters=item_id%3AMLB3646033543&from=gshop&matt_tool=10818270&matt_word=&matt_source=google&matt_campaign_id=14303413601&matt_ad_group_id=125984286957&matt_match_type=&matt_network=g&matt_device=c&matt_creative=539354956209&matt_keyword=&matt_ad_position=&matt_ad_type=pla&matt_merchant_id=735098660&matt_product_id=MLB34923702-product&matt_product_partition_id=2267720640401&matt_target_id=aud-1967669456294:pla-2267720640401&cq_src=google_ads&cq_cmp=14303413601&cq_net=g&cq_plt=gp&cq_med=pla&gad_source=1&gclid=EAIaIQobChMI977cjqrIiQMVAiytBh2yJxRpEAQYASABEgIpjvD_BwE",
+        },
+        {
+          name: "Impressora Multifuncional HP Smart Tank 521 Preto USB 2.0 100-220V",
+          image:
+            "https://http2.mlstatic.com/D_NQ_NP_2X_859873-MLA79465088971_092024-F.webp",
+          price: "R$ 664,05",
+          link: "https://www.mercadolivre.com.br/impressora-multifuncional-hp-smart-tank-521-preto-usb-20-100-220v/p/MLB38650401#wid%3DMLB4998208376%26sid%3Dsearch%26searchVariation%3DMLB38650401%26searchPage%3Dsearch%26search_position%3D2%26searchBy%3Dactive&from=gshop",
+        },
+      ];
 
-        function displayProducts() {
-            const productList = document.getElementById("product-list");
-            products.forEach(product => {
-                const card = document.createElement("div");
-                card.className = "product-card";
-                card.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}">
-                    <h3>${product.name}</h3>
-                    <p>${product.price}</p>
-                    <a href="${product.link}" target="_blank">Ver Mais</a>
-                `;
-                productList.appendChild(card);
-            });
-        }
+      const productList = document.getElementById("product-list");
 
-        displayProducts();
+      products.forEach((product) => {
+        const productCard = document.createElement("div");
+        productCard.classList.add("product-card");
+
+        productCard.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p>${product.price}</p>
+                <a href="${product.link}" target="_blank">Comprar Agora</a>
+            `;
+
+        productList.appendChild(productCard);
+      });
     </script>
-</body>
+  </body>
 </html>
