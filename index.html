@@ -3,207 +3,542 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OPÇÕES DE COMPRA</title>
+    <title>hamburguer.origetec</title>
     <style>
-      /* Resetando algumas configurações padrões */
+      :root {
+        --primary: #f97316;
+        --secondary: #334155;
+        --background: #fff7ed;
+        --card-bg: white;
+        --text: #1e293b;
+        --border: #e2e8f0;
+      }
+
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        font-family: system-ui, -apple-system, sans-serif;
       }
 
       body {
-        font-family: "Arial", sans-serif;
-        background-color: #121212;
-        color: #fff;
-        display: flex;
-        flex-direction: column;
+        background: var(--background);
+        color: var(--text);
         min-height: 100vh;
-        margin: 0;
+        padding: 2rem;
       }
 
-      h1 {
-        font-size: 40px;
-        color: #ff6f00;
-        margin-bottom: 10px;
-        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
-        padding-top: 10px;
-        background-color: #333;
-        width: 100%;
-        padding: 20px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .header {
         text-align: center;
+        margin-bottom: 2rem;
       }
 
-      .product-list {
+      .header svg {
+        width: 64px;
+        height: 64px;
+        color: var(--primary);
+        margin-bottom: 1rem;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        color: var(--text);
+        margin-bottom: 0.5rem;
+      }
+
+      .header p {
+        color: var(--secondary);
+        font-size: 1.125rem;
+      }
+
+      .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .card {
+        background: var(--card-bg);
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      }
+
+      .card-header {
         display: flex;
-        gap: 20px;
-        overflow-x: auto;
-        padding: 80px 20px 100px;
-        margin-top: 100px; /* Ajustando para o cabeçalho fixo */
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
       }
 
-      .product-card {
-        background-color: #1a1a1a;
-        border-radius: 15px;
-        width: 300px; /* Largura fixa para desktop */
-        padding: 20px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease-in-out;
-        position: relative;
-        overflow: hidden;
-        text-align: center;
+      .card-title {
+        font-size: 0.875rem;
+        color: var(--secondary);
       }
 
-      .product-card:hover {
-        transform: translateY(-15px);
-        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
-      }
-
-      .product-card img {
-        width: 100%;
-        height: 250px;
-        object-fit: contain;
-        border-radius: 8px;
-        transition: transform 0.3s ease;
-      }
-
-      .product-card:hover img {
-        transform: scale(1.1);
-      }
-
-      .product-card h3 {
-        font-size: 18px;
-        color: #fff;
-        margin-top: 20px;
+      .card-value {
+        font-size: 1.5rem;
         font-weight: bold;
       }
 
-      .product-card p {
-        font-size: 16px;
-        color: #ff6f00;
-        margin: 10px 0;
+      .tabs {
+        background: var(--card-bg);
+        padding: 1rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
       }
 
-      .product-card a {
-        display: inline-block;
-        margin-top: 15px;
-        padding: 10px 20px;
-        background-color: #ff6f00;
-        color: #fff;
-        font-size: 16px;
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
+      .tab-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 1rem;
       }
 
-      .product-card a:hover {
-        background-color: #e55e00;
+      .tab-button {
+        padding: 0.5rem 1rem;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 1rem;
+        color: var(--secondary);
+        border-radius: 0.5rem;
+        transition: all 0.2s;
       }
 
-      footer {
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        padding: 15px;
+      .tab-button.active {
+        background: var(--primary);
+        color: white;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      table {
         width: 100%;
-        font-size: 16px;
-        position: fixed;
-        bottom: 0;
+        border-collapse: collapse;
       }
 
-      /* Media queries para tornar o layout mais adaptável em diferentes dispositivos */
-      @media (max-width: 1200px) {
-        .product-card {
-          width: 250px; /* Para telas médias, como tablets */
-        }
+      th,
+      td {
+        text-align: left;
+        padding: 0.75rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      th {
+        font-weight: 600;
+        color: var(--secondary);
+      }
+
+      .pay-button {
+        width: 100%;
+        padding: 0.75rem;
+        background: #8a05be;
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+      }
+
+      .pay-button:hover {
+        background: #6e02a4;
       }
 
       @media (max-width: 768px) {
-        .product-list {
-          flex-direction: column; /* Empilha os cards em dispositivos móveis */
-          align-items: center;
+        body {
+          padding: 1rem;
         }
 
-        .product-card {
-          width: 90%; /* Ajusta a largura dos cards para dispositivos móveis */
-          margin-bottom: 20px; /* Espaçamento entre os cards */
+        .header h1 {
+          font-size: 2rem;
         }
 
-        h1 {
-          font-size: 32px; /* Tamanho do título reduzido em telas menores */
-        }
-      }
-
-      @media (max-width: 480px) {
-        h1 {
-          font-size: 28px; /* Título ainda menor para telas muito pequenas */
+        .dashboard {
+          grid-template-columns: 1fr;
         }
       }
     </style>
   </head>
   <body>
-    <h1>OPÇÕES DE COMPRA - IMPRESSORA</h1>
+    <div class="container">
+      <header class="header">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"
+          />
+          <line x1="6" y1="17" x2="18" y2="17" />
+        </svg>
+        <h1>Hamburguer Origetecos</h1>
+        <p>AB | Dev</p>
+      </header>
 
-    <div class="product-list" id="product-list">
-      <!-- Os cards serão inseridos aqui -->
+      <div class="dashboard">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Custo Total</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+            </svg>
+          </div>
+          <div class="card-value" id="totalCost">R$ 0.00</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Custo por Hambúrguer</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+              <path d="M3 6h18" />
+              <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
+          </div>
+          <div class="card-value" id="costPerBurger">R$ 0.00</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Total de Pedidos</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <div class="card-value" id="totalOrders">R$ 0.00</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Pagamento</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+              <line x1="1" y1="10" x2="23" y2="10" />
+            </svg>
+          </div>
+          <button
+            class="pay-button"
+            onclick="window.open('https://nubank.com.br/cobrar/cfwmg/672e17cc-dd2f-4185-a96e-201ac688c611', '_blank')"
+          >
+            Pagar Agora
+          </button>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab-buttons">
+          <button class="tab-button active" onclick="showTab('ingredients')">
+            Ingredientes
+          </button>
+          <button class="tab-button" onclick="showTab('orders')">
+            Pedidos
+          </button>
+          <button class="tab-button" onclick="showTab('receipts')">
+            Notas Fiscais
+          </button>
+        </div>
+
+        <div id="ingredients" class="tab-content active">
+          <table id="ingredientsTable">
+            <thead>
+              <tr>
+                <th>Descrição</th>
+                <th>Valor KG</th>
+                <th>Embalagem (g)</th>
+                <th>Quantidade Usada (g)</th>
+                <th>Custo</th>
+                <th>Fornecedor</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div id="orders" class="tab-content">
+          <table id="ordersTable">
+            <thead>
+              <tr>
+                <th>NOME</th>
+                <th>QUNATIDADE</th>
+                <th>TOTAL</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div id="receipts" class="tab-content">
+          <table id="receiptsTable">
+            <thead>
+              <tr>
+                <th>Nota Fiscal</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <footer>Direitos reservados por Borba | DV</footer>
-
     <script>
-      const products = [
+      const ingredients = [
         {
-          name: "Impressora Função Única Epson EcoTank L1250 (Mercado Livre)",
-          image:
-            "https://http2.mlstatic.com/D_NQ_NP_2X_936254-MLU72627739314_112023-F.webp",
-          price: "R$ 907,00",
-          link: "https://www.mercadolivre.com.br/impressora-funco-unica-cor-epson-ecotank-l1250-127220v/p/MLB21638434?pdp_filters=item_id%3AMLB5141195212&from=gshop&matt_tool=39437454&matt_word=&matt_source=google&matt_campaign_id=14303413652&matt_ad_group_id=125984292917&matt_match_type=&matt_network=g&matt_device=c&matt_creative=539354956551&matt_keyword=&matt_ad_position=&matt_ad_type=pla&matt_merchant_id=735098639&matt_product_id=MLB21638434-product&matt_product_partition_id=2267720640641&matt_target_id=aud-1967669456294:pla-2267720640641&cq_src=google_ads&cq_cmp=14303413652&cq_net=g&cq_plt=gp&cq_med=pla&gad_source=1&gclid=EAIaIQobChMI2Y6jsajIiQMVYjutBh1mdBKOEAQYBSABEgKgGvD_BwE",
+          description: "Acém Angus",
+          valueKg: 39.98,
+          package: 1000,
+          used: 1930,
+          cost: 77.16,
+          supplier: "Carolina",
         },
         {
-          name: "Impressora Multifuncional HP 2874 (Amazon)",
-          image:
-            "https://http2.mlstatic.com/D_NQ_NP_829603-MLU75230591366_032024-O.webp",
-          price: "R$ 419,00",
-          link: "https://www.amazon.com.br/Impressora-Multifuncional-HP-2874-Tecnologia/dp/B0CT8XVNQX/ref=asc_df_B0CT8XVNQX/?tag=googleshopp00-20&linkCode=df0&hvadid=709884378169&hvpos=&hvnetw=g&hvrand=12288537503771499105&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9102359&hvtargid=pla-2295055751918&psc=1&mcid=facdf473e4413f82beaa2c29ca712849&gad_source=1",
+          description: "Fraldinha",
+          valueKg: 49.98,
+          package: 1000,
+          used: 1020,
+          cost: 50.98,
+          supplier: "Carolina",
         },
         {
-          name: "Impressora multifuncional cor HP Multifuncional DeskJet Ink Advantage 2874 127/220V",
-          image:
-            "https://http2.mlstatic.com/D_NQ_NP_829603-MLU75230591366_032024-O.webp",
-          price: "R$ 383,80",
-          link: "https://www.mercadolivre.com.br/impressora-multifuncional-cor-hp-multifuncional-deskjet-ink-advantage-2874-127220v/p/MLB34923702?pdp_filters=item_id%3AMLB3646033543&from=gshop&matt_tool=10818270&matt_word=&matt_source=google&matt_campaign_id=14303413601&matt_ad_group_id=125984286957&matt_match_type=&matt_network=g&matt_device=c&matt_creative=539354956209&matt_keyword=&matt_ad_position=&matt_ad_type=pla&matt_merchant_id=735098660&matt_product_id=MLB34923702-product&matt_product_partition_id=2267720640401&matt_target_id=aud-1967669456294:pla-2267720640401&cq_src=google_ads&cq_cmp=14303413601&cq_net=g&cq_plt=gp&cq_med=pla&gad_source=1&gclid=EAIaIQobChMI977cjqrIiQMVAiytBh2yJxRpEAQYASABEgIpjvD_BwE",
+          description: "Pão Hamburguer",
+          valueKg: 15.0,
+          package: 6,
+          used: 18,
+          cost: 45.0,
+          supplier: "Saidel",
         },
         {
-          name: "Impressora Multifuncional HP Smart Tank 521 Preto USB 2.0 100-220V",
-          image:
-            "https://http2.mlstatic.com/D_NQ_NP_2X_859873-MLA79465088971_092024-F.webp",
-          price: "R$ 664,05",
-          link: "https://www.mercadolivre.com.br/impressora-multifuncional-hp-smart-tank-521-preto-usb-20-100-220v/p/MLB38650401#wid%3DMLB4998208376%26sid%3Dsearch%26searchVariation%3DMLB38650401%26searchPage%3Dsearch%26search_position%3D2%26searchBy%3Dactive&from=gshop",
+          description: "Queijo Cheddar",
+          valueKg: 61.94,
+          package: 1000,
+          used: 288,
+          cost: 17.84,
+          supplier: "Vitorino",
+        },
+        {
+          description: "Maçã",
+          valueKg: 11.69,
+          package: 1000,
+          used: 380,
+          cost: 4.44,
+          supplier: "Vitorino",
+        },
+        {
+          description: "Pimenta",
+          valueKg: 27.43,
+          package: 1000,
+          used: 20,
+          cost: 0.55,
+          supplier: "Vitorino",
+        },
+        {
+          description: "Alface Americana",
+          valueKg: 3.98,
+          package: 1,
+          used: 1,
+          cost: 3.98,
+          supplier: "Vitorino",
+        },
+        {
+          description: "Tomate",
+          valueKg: 5.49,
+          package: 1000,
+          used: 345,
+          cost: 1.89,
+          supplier: "Vitorino",
+        },
+        {
+          description: "Limão",
+          valueKg: 10.78,
+          package: 1000,
+          used: 180,
+          cost: 1.94,
+          supplier: "Fort",
+        },
+        {
+          description: "Carvão 2,5kg",
+          valueKg: 16.49,
+          package: 1,
+          used: 1,
+          cost: 16.49,
+          supplier: "Vitorino",
+        },
+        {
+          description: "Refrigerante",
+          valueKg: 10.49,
+          package: 1,
+          used: 2,
+          cost: 20.98,
+          supplier: "Vitorino",
         },
       ];
 
-      const productList = document.getElementById("product-list");
+      const orders = [
+        { name: "Anderson", quantity: 2, total: 26.81 },
+        { name: "Duglas", quantity: 2, total: 26.81 },
+        { name: "Gustavo", quantity: 3, total: 40.21 },
+        { name: "Victor", quantity: 2, total: 26.81 },
+        { name: "Wagner", quantity: 2, total: 26.81 },
+        { name: "Lucas", quantity: 2, total: 26.81 },
+        { name: "Amarildo", quantity: 1, total: 13.4 },
+        { name: "João", quantity: 2, total: 26.81 },
+        { name: "Fernando", quantity: 1, total: 13.4 },
+      ];
 
-      products.forEach((product) => {
-        const productCard = document.createElement("div");
-        productCard.classList.add("product-card");
+      const receipts = [
+        {
+          id: 1,
+          url: "https://sat.sef.sc.gov.br/tax.NET/Sat.DFe.NFCe.Web/Consultas/NFCe_Detalhes.aspx?rq=t8BOzGQxqyFCvKRV19xZaIAUUk9My%2BGqs9KDMPne8QbyY9DIc%2FwgZf1mEAtDivv3shGg%2BCXDiWEsL7W9X64%2FaWQjSW6FK0jig9GQDa0PzBBe%2FAratp4iJpbSJ2sG4ZZYZhBsl19eMuW%2FLN6zyLGgk%2F470oeWfDta",
+        },
+        {
+          id: 2,
+          url: "https://sat.sef.sc.gov.br/tax.NET/Sat.DFe.NFCe.Web/Consultas/NFCe_Detalhes.aspx?rq=t8BOzGQxqyH%2FMq7oabWpIogLMNr9zkRkV6ejXRRR3M5o6o%2BYbKp74xIe3z5lQMJuQ4Po9DQQOn4EXNnhPjYQqfnaXVj8qI7ilx%2B2QhpEYnmb7juoHdKFiYgPBtRBwXNTMRfPaolb12UxeaeG2HvtA45e3PS0b7V1",
+        },
+        {
+          id: 3,
+          url: "https://sat.sef.sc.gov.br/tax.NET/Sat.DFe.NFCe.Web/Consultas/NFCe_Detalhes.aspx?rq=t8BOzGQxqyGsPlYdqP8kj%2FPjgJH3XxaiM3M%2BLBxtap1jQu8ThikMWIzd1%2BgtVMqAUCeAMep59GiPrBhj3MOKoIFKIJfs%2BPjh6DL181DyzTy7zqyOk7qTI32xlaACG2Om9bnpO%2BsViyD9hKN6G%2Bl9qurIWNK53lmD",
+        },
+      ];
 
-        productCard.innerHTML = `
-                <img src="${product.image}" alt="${product.name}">
-                <h3>${product.name}</h3>
-                <p>${product.price}</p>
-                <a href="${product.link}" target="_blank">Comprar Agora</a>
-            `;
+      function formatCurrency(value) {
+        return new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        }).format(value);
+      }
 
-        productList.appendChild(productCard);
-      });
+      function showTab(tabId) {
+        document.querySelectorAll(".tab-content").forEach((tab) => {
+          tab.classList.remove("active");
+        });
+        document.querySelectorAll(".tab-button").forEach((button) => {
+          button.classList.remove("active");
+        });
+        document.getElementById(tabId).classList.add("active");
+        document
+          .querySelector(`button[onclick="showTab('${tabId}')"]`)
+          .classList.add("active");
+      }
+
+      function populateTables() {
+        // Populate ingredients table
+        const ingredientsBody = document.querySelector(
+          "#ingredientsTable tbody"
+        );
+        ingredients.forEach((item) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                    <td>${item.description}</td>
+                    <td>${formatCurrency(item.valueKg)}</td>
+                    <td>${item.package}</td>
+                    <td>${item.used}</td>
+                    <td>${formatCurrency(item.cost)}</td>
+                    <td>${item.supplier}</td>
+                `;
+          ingredientsBody.appendChild(row);
+        });
+
+        // Populate orders table
+        const ordersBody = document.querySelector("#ordersTable tbody");
+        orders.forEach((order) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                    <td>${order.name}</td>
+                    <td>${order.quantity}</td>
+                    <td>${formatCurrency(order.total)}</td>
+                `;
+          ordersBody.appendChild(row);
+        });
+
+        // Populate receipts table
+        const receiptsBody = document.querySelector("#receiptsTable tbody");
+        receipts.forEach((receipt) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                    <td>Nota Fiscal ${receipt.id}</td>
+                    <td><button class="pay-button" onclick="window.open('${receipt.url}', '_blank')">Visualizar</button></td>
+                `;
+          receiptsBody.appendChild(row);
+        });
+
+        // Update dashboard values
+        const totalCost = ingredients.reduce((sum, item) => sum + item.cost, 0);
+        const totalOrders = orders.reduce((sum, order) => sum + order.total, 0);
+        const costPerBurger = totalCost / 18; // Total burgers made
+
+        document.getElementById("totalCost").textContent =
+          formatCurrency(totalCost);
+        document.getElementById("costPerBurger").textContent =
+          formatCurrency(costPerBurger);
+        document.getElementById("totalOrders").textContent =
+          formatCurrency(totalOrders);
+      }
+
+      // Initialize the application
+      document.addEventListener("DOMContentLoaded", populateTables);
     </script>
   </body>
 </html>
